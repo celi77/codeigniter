@@ -1,0 +1,46 @@
+CRITICAL - 2025-05-26 20:52:05 --> Error: Class "App\Models\Persona" not found
+[Method: GET, Route: /]
+in APPPATH\Controllers\PersonaController.php on line 13.
+ 1 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\PersonaController->index()
+ 2 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PersonaController))
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-26 20:52:41 --> Error: Class "App\Controllers\Personas" not found
+[Method: GET, Route: /]
+in APPPATH\Controllers\PersonaController.php on line 13.
+ 1 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\PersonaController->index()
+ 2 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PersonaController))
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-26 20:56:20 --> Error: Class "App\Controllers\Personas" not found
+[Method: GET, Route: /]
+in APPPATH\Controllers\PersonaController.php on line 13.
+ 1 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\PersonaController->index()
+ 2 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PersonaController))
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-26 21:14:31 --> Error: Class "App\Models\Persona" not found
+[Method: GET, Route: /]
+in APPPATH\Controllers\PersonaController.php on line 13.
+ 1 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\PersonaController->index()
+ 2 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PersonaController))
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-05-26 21:14:47 --> ErrorException: Undefined variable $PersonaModel
+[Method: GET, Route: /]
+in APPPATH\Controllers\PersonaController.php on line 14.
+ 1 APPPATH\Controllers\PersonaController.php(14): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $PersonaModel', 'C:\\xampp\\htdocs\\CelinaMaldonado\\codeigniter\\app\\Controllers\\PersonaController.php', 14)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\PersonaController->index()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PersonaController))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
