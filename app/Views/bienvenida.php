@@ -7,111 +7,154 @@
     <meta charset="UTF-8">
     <title>Sistema de Detección de CO</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at top, #0b1220, #050814);
+            color: #e5e7eb;
+            overflow-x: hidden;
+        }
+
+        /* Fondo animado suave */
+        .bg-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: rgba(56,189,248,0.15);
+            filter: blur(120px);
+            border-radius: 50%;
+            top: -200px;
+            left: -200px;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%,100% { transform: translateY(0px); }
+            50% { transform: translateY(30px); }
+        }
+
+        .hero {
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #0f172a 0%, #1e2937 100%);
-            font-family: 'Inter', sans-serif;
-            color: white;
+            position: relative;
+            padding: 20px;
         }
 
-        .card {
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(24px);
-            padding: 70px 60px;
+        .card-hero {
+            position: relative;
+            max-width: 750px;
+            width: 100%;
+            padding: 70px 50px;
             border-radius: 28px;
-            width: 680px;
-            text-align: center;
-            box-shadow: 0 30px 70px -15px rgba(0,0,0,0.6);
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(25px);
             border: 1px solid rgba(56,189,248,0.2);
+            box-shadow: 0 40px 90px rgba(0,0,0,0.6);
+            text-align: center;
         }
 
         .logo {
-            width: 260px;
-            margin-bottom: 40px;
-            filter: drop-shadow(0 15px 35px rgba(56,189,248,0.4));
+            width: 180px;
+            margin-bottom: 25px;
+            filter: drop-shadow(0 15px 25px rgba(56,189,248,0.3));
         }
 
         h1 {
-            font-size: 38px;
+            font-size: 42px;
             font-weight: 700;
-            background: linear-gradient(90deg, #e0f2fe, #bae6fd);
+            background: linear-gradient(90deg, #e0f2fe, #38bdf8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 12px;
         }
 
-        .subtitle {
+        p {
             font-size: 18px;
             color: #94a3b8;
-            line-height: 1.65;
-            margin-bottom: 55px;
+            margin-top: 15px;
+            line-height: 1.7;
         }
 
-        .botones {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-        }
-
-        .botones a {
-            text-decoration: none;
-            flex: 1;
-            max-width: 260px;
-        }
-
-        .botones button {
-            width: 100%;
-            padding: 18px;
-            border: none;
+        .btn-custom {
+            padding: 14px 22px;
             border-radius: 14px;
-            font-size: 17px;
             font-weight: 600;
-            cursor: pointer;
-            transition: all 0.4s ease;
+            transition: 0.3s;
+            border: none;
         }
 
-        .registro { 
-            background: linear-gradient(135deg, #38bdf8, #0ea5e9); 
-            color: white; 
+        .btn-primary-custom {
+            background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+            color: white;
         }
 
-        .login { 
-            background: rgba(148, 163, 184, 0.15); 
-            color: white; 
+        .btn-primary-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(14,165,233,0.4);
+        }
+
+        .btn-outline-custom {
+            background: transparent;
             border: 1px solid rgba(148,163,184,0.4);
+            color: #e5e7eb;
         }
 
-        .registro:hover { transform: translateY(-4px); box-shadow: 0 15px 30px rgba(14,165,233,0.4); }
-        .login:hover { background: rgba(148, 163, 184, 0.25); }
+        .btn-outline-custom:hover {
+            background: rgba(148,163,184,0.15);
+        }
+
+        .btn-group-custom {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
     </style>
 </head>
 <body>
 
-<div class="card">
-    <img src="<?= base_url('assets/img/logo-co.jpg') ?>" alt="Logo Sistema CO" class="logo">
+<div class="bg-glow"></div>
 
-    <h1>Sistema de Detección de CO</h1>
-    <p class="subtitle">
-        Plataforma industrial avanzada para el monitoreo en tiempo real de monóxido de carbono.
-    </p>
+<div class="hero">
 
-    <div class="botones">
-        <a href="<?= site_url('registro') ?>">
-            <button class="registro">Registrarse</button>
-        </a>
-        
-        <a href="<?= site_url('login') ?>">
-            <button class="login">Iniciar sesión</button>
-        </a>
+    <div class="card-hero">
+
+        <img src="<?= base_url('assets/img/logo-co.jpg') ?>" alt="Logo CO" class="logo">
+
+        <h1>Sistema de Detección de CO</h1>
+
+        <p>
+            Plataforma inteligente de monitoreo en tiempo real para la detección de monóxido de carbono,
+            con análisis de datos, alertas automáticas y visualización avanzada.
+        </p>
+
+        <div class="btn-group-custom">
+            <a href="<?= base_url('registro') ?>">
+                <button class="btn btn-custom btn-primary-custom">
+                    <i class="fas fa-user-plus me-2"></i> Registrarse
+                </button>
+            </a>
+
+            <a href="<?= site_url('login') ?>">
+                <button class="btn btn-custom btn-outline-custom">
+                    <i class="fas fa-sign-in-alt me-2"></i> Iniciar sesión
+                </button>
+            </a>
+        </div>
+
     </div>
+
 </div>
 
 </body>

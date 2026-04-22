@@ -15,7 +15,10 @@ class Inicio extends Controller
     {
         return view('registro');
     }
-
+    public function login()
+    {
+        return view('login');
+    }   
     public function guardar()
     {
         $nombre = $this->request->getPost('nombre');
