@@ -108,7 +108,7 @@
 
     <h2>Crear nueva contraseña</h2>
 
-    <form method="post" action="<?= base_url('recuperarpassword/actualizar') ?>">
+   <form method="post" action="<?= base_url('solpass/updatePassword') ?>">
         <?= csrf_field() ?>
 
         <input type="hidden" name="token" value="<?= $token ?>">

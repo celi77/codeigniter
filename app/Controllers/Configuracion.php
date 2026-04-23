@@ -26,4 +26,17 @@ class Configuracion extends Controller
 
         return redirect()->to('/configuracion');
     }
+    public function guardarSensor()
+{
+    $sensorModel = new \App\Models\SensorModel();
+
+    $data = [
+        'sector' => $this->request->getPost('sector'),
+        'funcionamiento' => $this->request->getPost('funcionamiento')
+    ];
+
+    $sensorModel->insert($data);
+
+    return redirect()->to('/configuracion')->with('success', 'Sensor creado correctamente');
+}
 }

@@ -110,13 +110,14 @@
             <i class="fas fa-bell me-2"></i> Alertas
           </button>
 
-          <button class="nav-link" data-bs-toggle="pill" data-bs-target="#sistema">
-            <i class="fas fa-sliders me-2"></i> Sistema
-          </button>
 
           <button class="nav-link" data-bs-toggle="pill" data-bs-target="#nuevo">
             <i class="fas fa-user-plus me-2"></i> Nuevo Usuario
           </button>
+
+          <button class="nav-link" data-bs-toggle="pill" data-bs-target="#sensores">
+  <i class="fas fa-microchip me-2"></i> Nuevo Sensor
+</button>
 
         </div>
       </div>
@@ -222,30 +223,7 @@
   </div>
 </div>
           <!-- SISTEMA -->
-          <div class="tab-pane fade" id="sistema">
-            <div class="section-title">Configuración del Sistema</div>
-
-            <div class="row g-3">
-              <div class="col-md-6">
-                <label class="form-label">Nombre del sistema</label>
-                <input type="text" class="form-control" placeholder="Ej: Panel IoT">
-              </div>
-
-              <div class="col-md-6">
-                <label class="form-label">Modo</label>
-                <select class="form-select">
-                  <option>Producción</option>
-                  <option>Desarrollo</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="mt-3">
-              <button class="btn btn-primary w-100">
-                Guardar configuración
-              </button>
-            </div>
-          </div>
+          
 
           <!-- NUEVO USUARIO -->
           <div class="tab-pane fade" id="nuevo">
@@ -284,6 +262,37 @@
 
             </form>
           </div>
+           <!-- SENSORES -->
+<div class="tab-pane fade" id="sensores">
+  <div class="section-title">Agregar Nuevo Sensor</div>
+
+  <form action="<?= base_url('configuracion/guardarSensor') ?>" method="post" class="row g-3">
+
+ 
+    <div class="col-md-6">
+      <label class="form-label">Sector</label>
+      <input type="text" name="sector" class="form-control" placeholder="Ej: Cocina, Aula 3" required>
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label">Funcionamiento</label>
+      <select name="funcionamiento" class="form-select">
+        <option value="activado">Activado</option>
+        <option value="mantenimiento">En mantenimiento</option>
+      </select>
+    </div>
+
+    
+
+    <div class="col-12">
+      <button type="submit" class="btn btn-primary w-100">
+        <i class="fas fa-plus me-2"></i> Crear sensor
+      </button>
+    </div>
+
+  </form>
+</div>
+          
 
         </div>
 

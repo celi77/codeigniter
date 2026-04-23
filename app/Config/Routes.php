@@ -69,3 +69,22 @@ $routes->get('/admin/rechazar/(:num)', 'AdminRecuperacion::rechazar/$1');
 //configuracion de roles admin
 $routes->get('/configuracion', 'Configuracion::index');
 $routes->post('/configuracion/actualizarRol', 'Configuracion::actualizarRol');
+
+//nuevos sensores 
+$routes->post('configuracion/guardarSensor', 'Configuracion::guardarSensor');
+
+
+// ================== RUTA - SOLICITUD DE CONTRASEÑA (AGREGADA AL FINAL) ==================
+$routes->get('sp', 'SolPass::index');
+$routes->post('sp/send', 'SolPass::send');
+
+$routes->get('sp/admin', 'SolPass::admin');
+$routes->get('sp/aprobar/(:num)', 'SolPass::aprobar/$1');
+$routes->get('sp/rechazar/(:num)', 'SolPass::rechazar/$1');
+
+
+
+
+$routes->get('reset/(:any)', 'SolPass::reset/$1');
+
+$routes->post('solpass/updatePassword', 'SolPass::updatePassword');

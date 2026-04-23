@@ -23,7 +23,6 @@
             overflow-x: hidden;
         }
 
-        /* Fondo animado suave */
         .bg-glow {
             position: absolute;
             width: 600px;
@@ -63,10 +62,20 @@
             text-align: center;
         }
 
-        .logo {
-            width: 180px;
+        /* 🔥 ICONO ORIGINAL */
+        .logo-box {
             margin-bottom: 25px;
-            filter: drop-shadow(0 15px 25px rgba(56,189,248,0.3));
+        }
+
+        .logo-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100px;
+            height: 100px;
+            border-radius: 20px;
+            background: rgba(56,189,248,0.1);
+            box-shadow: 0 10px 30px rgba(56,189,248,0.2);
         }
 
         h1 {
@@ -82,6 +91,17 @@
             color: #94a3b8;
             margin-top: 15px;
             line-height: 1.7;
+        }
+
+        .mini-info {
+            margin-top: 20px;
+            font-size: 15px;
+            color: #94a3b8;
+        }
+
+        .mini-info i {
+            color: #38bdf8;
+            margin-right: 6px;
         }
 
         .btn-custom {
@@ -130,14 +150,26 @@
 
     <div class="card-hero">
 
-        <img src="<?= base_url('assets/img/logo-co.jpg') ?>" alt="Logo CO" class="logo">
+        <!-- 🔥 TU ICONO ORIGINAL -->
+        <div class="logo-box">
+            <div class="logo-icon">
+                <i class="fas fa-cloud-sun" style="font-size: 56px; color:#38bdf8;"></i>
+            </div>
+        </div>
 
         <h1>Sistema de Detección de CO</h1>
 
         <p>
             Plataforma inteligente de monitoreo en tiempo real para la detección de monóxido de carbono,
-            con análisis de datos, alertas automáticas y visualización avanzada.
+            con alertas automáticas y visualización de datos.
         </p>
+
+        <!-- INFO SIMPLE -->
+        <div class="mini-info">
+            <p><i class="fas fa-check-circle"></i> Monitoreo en tiempo real</p>
+            <p><i class="fas fa-bell"></i> Alertas ante niveles peligrosos</p>
+            <p><i class="fas fa-chart-line"></i> Visualización de datos</p>
+        </div>
 
         <div class="btn-group-custom">
             <a href="<?= base_url('registro') ?>">

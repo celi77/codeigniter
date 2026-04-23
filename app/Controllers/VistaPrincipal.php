@@ -3,11 +3,16 @@
 namespace App\Controllers;
 
 use CodeIgniter\Controller;
+use App\Models\SensorModel;
 
 class VistaPrincipal extends Controller
 {
     public function index()
     {
-        return view('vistaprincipal');
+        $sensorModel = new SensorModel();
+
+        $data['sensores'] = $sensorModel->findAll();
+
+        return view('vistaprincipal', $data);
     }
 }

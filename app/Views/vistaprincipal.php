@@ -9,12 +9,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
   <style>
-    body {
-      background: #0f172a;
-      font-family: 'Segoe UI', sans-serif;
-      color: #e2e8f0;
-    }
-
+    body { background: #0f172a; font-family: 'Segoe UI', sans-serif; color: #e2e8f0; }
     h1,h2,h3,h4,h5,h6,strong { color:#f8fafc !important; }
     small,.text-muted { color:#cbd5e1 !important; }
 
@@ -59,7 +54,6 @@
       color: #e2e8f0;
     }
 
-    /* KPI */
     .kpi-card { padding:20px; text-align:center; }
 
     .kpi-blue { border-top:3px solid #38bdf8; }
@@ -67,12 +61,8 @@
     .kpi-yellow { border-top:3px solid #facc15; }
     .kpi-red { border-top:3px solid #ef4444; }
 
-    .kpi-card h2 {
-      font-size: 26px;
-      font-weight: bold;
-    }
+    .kpi-card h2 { font-size: 26px; font-weight: bold; }
 
-    /* ACTIVIDAD */
     .activity-item {
       border-bottom: 1px solid #1f2937;
       padding: 10px 0;
@@ -92,7 +82,6 @@
 
 <body>
 
-<!-- SIDEBAR -->
 <div class="sidebar">
 
   <div class="p-4 text-center border-bottom">
@@ -105,8 +94,17 @@
   <a href="<?= base_url('estadisticas') ?>"><i class="fas fa-chart-bar me-2"></i> Estadísticas</a>
   <a href="<?= base_url('alertas') ?>"><i class="fas fa-bell me-2"></i> Alertas</a>
 
+
+  
   <?php if(session()->get('rol') === 'admin'): ?>
-    <a href="<?= base_url('configuracion') ?>"><i class="fas fa-cog me-2"></i> Configuración</a>
+    <a href="<?= base_url('sp') ?>">
+      <i class="fas fa-cog me-2"></i> Solicitud de Contraseña
+    </a>
+  <?php endif; ?> 
+  <?php if(session()->get('rol') === 'admin'): ?>
+    <a href="<?= base_url('configuracion') ?>">
+      <i class="fas fa-cog me-2"></i> Configuración
+    </a>
   <?php endif; ?>
 
   <div class="position-absolute bottom-0 w-100 p-3">
@@ -116,17 +114,12 @@
 
 </div>
 
-<!-- MAIN -->
 <div class="main-content">
 
-  <!-- HEADER CON LOGO AGREGADO -->
   <div class="header d-flex justify-content-between align-items-center">
-
     <h3>Vista General</h3>
 
     <div class="d-flex align-items-center gap-3">
-
-      <!-- 🔥 LOGO PEQUEÑO -->
       <div style="
           width: 38px;
           height: 38px;
@@ -136,7 +129,6 @@
           display:flex;
           align-items:center;
           justify-content:center;
-          box-shadow: 0 10px 25px rgba(56,189,248,0.25);
       ">
           <i class="fas fa-cloud-sun" style="font-size: 18px; color:#38bdf8;"></i>
       </div>
@@ -144,12 +136,9 @@
       <div>
         Hola, <strong><?= session()->get('nombre'); ?></strong>
       </div>
-
     </div>
-
   </div>
 
-  <!-- KPI -->
   <div class="row g-4">
 
     <div class="col-md-3">
@@ -182,33 +171,62 @@
 
   </div>
 
+  
+  <!-- ADMIN -->
+   
+<?php if(session()->get('rol') === 'admin' && isset($solicitudes)): ?>
+
+<hr class="mt-5">
+
+<h4>Solicitudes</h4>
+
+<table class="table table-dark">
+<tr>
+<th>ID</th>
+<th>Email</th>
+<th>Estado</th>
+<th>Acción</th>
+</tr>
+
+<?php foreach($solicitudes as $s): ?>
+<tr>
+<td><?= $s['id'] ?></td>
+<td><?= $s['email'] ?></td>
+<td><?= $s['estado'] ?></td>
+<td>
+
+<?php if($s['estado'] == 'pendiente'): ?>
+<a href="<?= base_url('sp/aprobar/'.$s['id']) ?>" class="btn btn-success btn-sm">✔</a>
+<a href="<?= base_url('sp/rechazar/'.$s['id']) ?>" class="btn btn-danger btn-sm">✖</a>
+<?php else: ?>
+-
+<?php endif; ?>
+
+</td>
+</tr>
+<?php endforeach; ?>
+
+</table>
+
+<?php endif; ?>
+  
+
   <!-- ACTIVIDAD -->
   <div class="card p-4 mt-4">
 
     <h5 class="mb-3"><i class="fas fa-microchip me-2"></i>Actividad de Sensores</h5>
 
-    <div class="activity-item">
-      Sensor Sala 1 - 21.4°C
-      <span class="float-end badge-soft ok">Activo</span>
-    </div>
+    <?php foreach($sensores as $sensor): ?>
 
-    <div class="activity-item">
-      Sensor Sala 3 - 32.5°C
-      <span class="float-end badge-soft bad">Alerta</span>
-    </div>
+<div class="activity-item">
+  Sensor <?= esc($sensor['sector']) ?>
 
-    <div class="activity-item">
-      Sensor Cocina - Gas detectado
-      <span class="float-end badge-soft bad">Crítico</span>
-    </div>
+  <span class="float-end badge-soft <?= $sensor['funcionamiento'] == 'activo' ? 'ok' : 'bad' ?>">
+    <?= esc($sensor['funcionamiento']) ?>
+  </span>
+</div>
 
-    <div class="activity-item">
-      Sensor Depósito - 55% humedad
-      <span class="float-end badge-soft ok">Normal</span>
-    </div>
-
-  </div>
-
+<?php endforeach; ?>
 </div>
 
 </body>
