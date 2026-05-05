@@ -3,16 +3,21 @@
 namespace App\Controllers;
 
 use CodeIgniter\Controller;
+use App\Models\SensorModel;
 
 class Estadisticas extends Controller
 {
     public function index()
     {
+        $model = new SensorModel();
+
+        $sensores = $model->findAll();
+
         $data = [
             'title' => 'Estadísticas',
+            'sensores' => $sensores
         ];
 
-        // Carga la vista directamente (temporalmente, sin layout)
         return view('estadisticas', $data);
     }
 }

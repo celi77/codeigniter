@@ -15,9 +15,7 @@ body {
     color: white;
 }
 
-.container {
-    max-width: 900px;
-}
+.container { max-width: 900px; }
 
 .card-custom {
     background: rgba(15, 23, 42, 0.95);
@@ -34,17 +32,11 @@ body {
     color: #94a3b8;
 }
 
-.btn-back:hover {
-    color: white;
-}
+.btn-back:hover { color: white; }
 
-.table {
-    background: transparent;
-}
+.table { background: transparent; }
 
-.table thead {
-    color: #cbd5e1;
-}
+.table thead { color: #cbd5e1; }
 
 .btn-success {
     background: linear-gradient(135deg, #22c55e, #16a34a);
@@ -68,64 +60,74 @@ body {
 
 <div class="container mt-5">
 
-    <!-- 🔙 VOLVER -->
-    <a href="<?= base_url('vistaprincipal') ?>" class="btn-back">← Volver</a>
+<a href="<?= base_url('vistaprincipal') ?>" class="btn-back">← Volver</a>
 
-    <div class="card-custom">
-        <h4 class="mb-3">Solicitudes</h4>
+<div class="card-custom">
+    <h4 class="mb-3">Solicitudes</h4>
 
-        <?php if(isset($solicitudes) && count($solicitudes) > 0): ?>
+    <?php if(isset($solicitudes) && count($solicitudes) > 0): ?>
 
-        <div class="table-responsive">
-        <table class="table table-dark table-borderless align-middle">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Email</th>
-                    <th>Estado</th>
-                    <th>Acción</th>
-                </tr>
-            </thead>
+    <div class="table-responsive">
+    <table class="table table-dark table-borderless align-middle">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Estado</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
 
-            <tbody>
-            <?php foreach($solicitudes as $s): ?>
-                <tr>
-                    <td><?= $s['id'] ?></td>
-                    <td><?= $s['email'] ?></td>
+        <tbody>
+        <?php foreach($solicitudes as $s): ?>
 
-                    <td>
-                        <?php if($s['estado'] == 'pendiente'): ?>
-                            <span class="text-warning">Pendiente</span>
-                        <?php elseif($s['estado'] == 'aprobado'): ?>
-                            <span class="text-success">Aprobado</span>
-                        <?php elseif($s['estado'] == 'rechazado'): ?>
-                            <span class="text-danger">Rechazado</span>
-                        <?php endif; ?>
-                    </td>
+            <tr>
+                <td><?= $s['id'] ?></td>
+                <td><?= $s['email'] ?></td>
 
-                    <td>
-                        <?php if(session()->get('rol') === 'admin' && $s['estado'] == 'pendiente'): ?>
-                            <a href="<?= base_url('sp/aprobar/'.$s['id']) ?>" class="btn btn-success btn-sm">Aprobar</a>
-                            <a href="<?= base_url('sp/rechazar/'.$s['id']) ?>" class="btn btn-danger btn-sm">Rechazar</a>
-                        <?php else: ?>
-                            -
-                        <?php endif; ?>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-            </tbody>
-        </table>
-        </div>
+                <td>
+                    <?php
+                    $estado = strtolower(trim($s['estado']));
 
-        <?php else: ?>
+                    if ($estado === 'pendiente') {
+                        echo '<span class="text-warning">Pendiente</span>';
 
-        <div class="alert mt-3">
-            No hay solicitudes
-        </div>
+                    } elseif ($estado === 'aprobado') {
+                        echo '<span class="text-success">Aprobado</span>';
 
-        <?php endif; ?>
+                    } elseif ($estado === 'rechazado') {
+                        echo '<span class="text-danger">Rechazado</span>';
 
+                    } else {
+                        echo '<span class="text-muted">Sin estado</span>';
+                    }
+                    ?>
+                </td>
+
+                <td>
+                    <?php if(session()->get('rol') === 'admin' && $estado === 'pendiente'): ?>
+                        <a href="<?= base_url('sp/aprobar/'.$s['id']) ?>" class="btn btn-success btn-sm">Aprobar</a>
+                        <a href="<?= base_url('sp/rechazar/'.$s['id']) ?>" class="btn btn-danger btn-sm">Rechazar</a>
+                    <?php else: ?>
+                        -
+                    <?php endif; ?>
+                </td>
+            </tr>
+
+        <?php endforeach; ?>
+        </tbody>
+    </table>
     </div>
+
+    <?php else: ?>
+
+    <div class="alert mt-3">
+        No hay solicitudes
+    </div>
+
+    <?php endif; ?>
+
+</div>
 
 </div>
 

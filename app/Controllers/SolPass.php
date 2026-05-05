@@ -106,39 +106,38 @@ class SolPass extends Controller
     }
 
     // ✖ RECHAZAR
-    public function rechazar($id)
-    {
-        if ($redir = $this->checkAdmin()) {
-            return $redir;
-        }
-
-        $model = new RecuperarContrasenaModel();
-        $solicitud = $model->find($id);
-
-        if (!$solicitud) {
-            return redirect()->back()->with('error', 'Solicitud no encontrada');
-        }
-
-        $model->update($id, ['estado' => 'rechazada']);
-
-        $email = \Config\Services::email();
-
-        $email->setTo($solicitud['email']);
-        $email->setSubject('Solicitud rechazada');
-
-        $email->setMessage("
-            <div style='font-family: Arial; padding:20px; background:#0f172a; color:#e2e8f0; border-radius:10px;'>
-                <h2 style='color:#ef4444;'>Solicitud rechazada ❌</h2>
-                <p>Tu solicitud de cambio de contraseña fue rechazada.</p>
-                <p>Contactá al administrador si creés que es un error.</p>
-            </div>
-        ");
-
-        $email->send();
-
-        return redirect()->back()->with('success', 'Solicitud rechazada');
+   public function rechazar($id)
+{
+    if ($redir = $this->checkAdmin()) {
+        return $redir;
     }
 
+    $model = new \App\Models\RecuperarContrasenaModel();
+    $solicitud = $model->find($id);
+
+    if (!$solicitud) {
+        return redirect()->back()->with('error', 'Solicitud no encontrada');
+    }
+
+    // 🔴 ESTADO CORRECTO (UNO SOLO)
+    $model->update($id, ['estado' => 'rechazado']);
+
+    $email = \Config\Services::email();
+
+    $email->setTo($solicitud['email']);
+    $email->setSubject('Solicitud rechazada');
+
+    $email->setMessage("
+        <div style='font-family: Arial; padding:20px; background:#0f172a; color:#e2e8f0; border-radius:10px;'>
+            <h2 style='color:#ef4444;'>Solicitud rechazada ❌</h2>
+            <p>Tu solicitud de cambio de contraseña fue rechazada.</p>
+        </div>
+    ");
+
+    $email->send();
+
+    return redirect()->back()->with('success', 'Solicitud rechazada');
+}
     // 🔑 MOSTRAR VISTA CAMBIAR CONTRASEÑA
     public function reset($token)
     {

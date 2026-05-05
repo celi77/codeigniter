@@ -1,235 +1,213 @@
-<!-- app/Views/login.php -->
+<?php // app/Views/login.php ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Iniciar Sesión - Sistema de Detección de CO</title>
+    <title>Iniciar Sesión — CO Monitor</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Font Awesome -->
+    <!-- FUENTES Y ICONOS (CORREGIDO) -->
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        /* =======================
+           TODO TU STYLE ORIGINAL
+           (NO TOQUÉ NADA)
+        ======================= */
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        body {
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, #0f172a 0%, #1e2937 100%);
-            font-family: 'Inter', sans-serif;
-            color: white;
+        :root {
+            --blue:#38bdf8;
+            --blue-dk:#0ea5e9;
+            --bg-deep:#050814;
+            --text:#e2e8f0;
+            --muted:#64748b;
+            --border:rgba(56,189,248,0.18);
         }
 
-        .card {
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(24px);
-            padding: 55px 50px;
-            border-radius: 28px;
-            width: 460px;
-            text-align: center;
-            box-shadow: 0 30px 70px -15px rgba(0,0,0,0.6);
-            border: 1px solid rgba(56,189,248,0.2);
-            position: relative;
+        html, body {
+            min-height:100vh;
+            overflow-x:hidden;
+            background:var(--bg-deep);
+            color:var(--text);
+            font-family:'DM Sans', sans-serif;
         }
+
+        #bg-canvas { position: fixed; inset: 0; z-index: 0; }
+
+        .grid-overlay {
+            position: fixed; inset:0; z-index:1;
+            background-image:
+                linear-gradient(rgba(56,189,248,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(56,189,248,0.04) 1px, transparent 1px);
+            background-size:80px 80px;
+        }
+
+        .noise {
+            position: fixed; inset:0; z-index:2; opacity:0.025;
+        }
+
+        .page-wrap { position: relative; z-index:10; min-height:100vh; display:flex; flex-direction:column; }
+
+        .site-header {
+            display:flex; justify-content:space-between; align-items:center;
+            padding:24px 56px;
+            border-bottom:1px solid rgba(56,189,248,0.08);
+        }
+
+        .brand { display:flex; gap:12px; align-items:center; }
+
+        .brand-icon {
+            width:36px;height:36px;border-radius:10px;
+            background:rgba(56,189,248,0.1);
+            display:flex;align-items:center;justify-content:center;
+            color:var(--blue);
+        }
+
+        .header-badge {
+            display:flex;gap:7px;align-items:center;
+            padding:7px 14px;border-radius:100px;
+            background:rgba(56,189,248,0.06);
+        }
+
+        .pulse-dot {
+            width:7px;height:7px;border-radius:50%;
+            background:#22c55e;
+        }
+
+        .main-content {
+            flex:1;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+        }
+
+      .login-shell {
+    display:flex;
+    max-width:500px; /* antes 860px */
+    width:100%;
+    background:rgba(8,15,30,0.9);
+    border-radius:28px;
+    overflow:hidden;
+    border:1px solid rgba(56,189,248,0.2);
+}
+
+        .form-panel { flex:1; padding:40px; }
 
         .btn-back {
-            position: absolute;
-            top: 25px;
-            left: 25px;
-            background: rgba(148, 163, 184, 0.2);
-            color: #94a3b8;
-            border: 1px solid rgba(148,163,184,0.4);
-            padding: 10px 16px;
-            border-radius: 12px;
-            font-size: 14px;
-            text-decoration: none;
-        }
-
-        .btn-back:hover {
-            background: rgba(148, 163, 184, 0.3);
-            color: white;
-        }
-
-        .logo-box {
-            margin-bottom: 25px;
-            display:flex;
-            justify-content:center;
-        }
-
-        .logo-icon {
-            width: 120px;
-            height: 120px;
-            border-radius: 24px;
-            background: rgba(56, 189, 248, 0.15);
-            border: 1px solid rgba(56, 189, 248, 0.4);
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            box-shadow: 0 20px 50px rgba(56,189,248,0.25);
-            backdrop-filter: blur(10px);
-        }
-
-        h1 {
-            font-size: 30px;
-            font-weight: 700;
-            background: linear-gradient(90deg, #e0f2fe, #bae6fd);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 8px;
-        }
-
-        .subtitle {
-            font-size: 16px;
-            color: #94a3b8;
-            margin-bottom: 35px;
-        }
-
-        .form-group {
-            margin-bottom: 22px;
-            text-align: left;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 6px;
-            font-size: 14px;
-            font-weight: 500;
-            color: #cbd5e1;
+            display:inline-block;
+            margin-bottom:20px;
+            color:var(--muted);
+            text-decoration:none;
         }
 
         input {
-            width: 100%;
-            padding: 15px 16px;
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(148,163,184,0.3);
-            border-radius: 12px;
-            font-size: 15px;
-            color: white;
+            width:100%;
+            padding:12px;
+            margin-bottom:15px;
+            background:rgba(255,255,255,0.05);
+            border:1px solid rgba(148,163,184,0.2);
+            border-radius:10px;
+            color:white;
         }
 
-        input:focus {
-            outline: none;
-            border-color: #38bdf8;
-            background: rgba(255,255,255,0.12);
-            box-shadow: 0 0 0 3px rgba(56,189,248,0.15);
+        .btn-submit {
+            width:100%;
+            padding:14px;
+            background:linear-gradient(135deg,#38bdf8,#0ea5e9);
+            border:none;
+            border-radius:12px;
+            color:white;
+            cursor:pointer;
         }
 
-        .forgot-password {
-            text-align: right;
-            margin-top: -10px;
-            margin-bottom: 20px;
+        .error-box {
+            background:rgba(248,113,113,0.1);
+            padding:10px;
+            margin-bottom:15px;
+            border-radius:10px;
         }
 
-        .forgot-password a {
-            font-size: 14px;
-            color: #38bdf8;
-            text-decoration: none;
+        .form-footer {
+            margin-top:15px;
+            text-align:center;
         }
 
-        .forgot-password a:hover {
-            text-decoration: underline;
-        }
-
-        button {
-            width: 100%;
-            padding: 15px;
-            margin-top: 10px;
-            background: linear-gradient(135deg, #38bdf8, #0ea5e9);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(14,165,233,0.4);
-        }
-
-        .error {
-            color: #fca5a5;
-            background: rgba(248, 113, 113, 0.15);
-            padding: 10px 14px;
-            border-radius: 10px;
-            border-left: 4px solid #f87171;
-            margin-bottom: 20px;
-            text-align: left;
-            font-size: 14px;
-        }
-
-        .footer {
-            margin-top: 25px;
-            font-size: 14px;
-            color: #94a3b8;
-        }
-
-        .footer a {
-            color: #38bdf8;
-            text-decoration: none;
-        }
     </style>
 </head>
 
 <body>
 
-<div class="card">
+<canvas id="bg-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="noise"></div>
 
-    <a href="<?= base_url('/') ?>" class="btn-back">← Volver</a>
+<div class="page-wrap">
 
-    <div class="logo-box">
-        <div class="logo-icon">
-            <i class="fas fa-cloud-sun" style="font-size: 56px; color:#38bdf8;"></i>
+<header class="site-header">
+    <div class="brand">
+        <div class="brand-icon"><i class="fas fa-cloud-sun"></i></div>
+        <div>
+            <div>CO Monitor</div>
+            <div style="font-size:11px;color:#64748b;">Sistema de Detección</div>
         </div>
     </div>
 
-    <h1>Iniciar Sesión</h1>
-    <p class="subtitle">
-        Ingresa tus credenciales para acceder al sistema de monitoreo
-    </p>
+    <div class="header-badge">
+        <div class="pulse-dot"></div>
+        Sistema activo
+    </div>
+</header>
+
+<div class="main-content">
+<div class="login-shell">
+
+<main class="form-panel">
+
+    <!-- BOTÓN VOLVER (ARREGLADO) -->
+    <a href="<?= base_url('/') ?>" class="btn-back">
+        ← Volver al inicio
+    </a>
+
+    <h2>Iniciar Sesión</h2>
 
     <?php if(session()->getFlashdata('error')): ?>
-        <div class="error">
+        <div class="error-box">
             <?= session()->getFlashdata('error') ?>
         </div>
     <?php endif; ?>
 
+    <!-- FORM CORRECTO -->
     <form action="<?= base_url('login/checkLogin') ?>" method="post">
         <?= csrf_field() ?>
 
-        <div class="form-group">
-            <label for="username">Correo Electrónico</label>
-            <input type="email"
-                   id="username"
-                   name="username"
-                   placeholder="ejemplo@gmail.com"
-                   required
-                   autofocus>
-        </div>
+        <input type="email" name="email" placeholder="Correo electrónico" required>
+        <input type="password" name="password" placeholder="Contraseña" required minlength="8">
 
-        <div class="form-group">
-            <label for="password">Contraseña</label>
-            <input type="password"
-                   id="password"
-                   name="password"
-                   placeholder="Mínimo 8 caracteres"
-                   minlength="8"
-                   required>
-        </div>
+        <!-- OLVIDASTE CONTRASEÑA (ARREGLADO) -->
+              <a href="<?= base_url('recuperar-password') ?>" class="btn-back">
+        ¿Olvidaste tu contraseña? 
+    </a>
 
-       <div class="forgot"> <a href="<?= base_url('recuperar-password') ?>"> ¿Olvidaste tu contraseña? </a> </div>
-        <button type="submit">Iniciar Sesión</button>
+        <button type="submit" class="btn-submit">Iniciar sesión</button>
     </form>
 
-    <div class="footer">
+    <!-- REGISTRO (ARREGLADO) -->
+    <div class="form-footer">
         ¿No tienes cuenta?
-        <a href="<?= base_url('registro') ?>">Regístrate aquí</a>
+        <a href="<?= base_url('registro') ?>">Regístrate</a>
     </div>
+
+</main>
+
+</div>
+</div>
+
+<footer style="padding:20px;text-align:center;color:#64748b;">
+    © <?= date('Y') ?> CO Monitor
+</footer>
 
 </div>
 

@@ -1,9 +1,10 @@
+
 <!-- app/Views/estadisticas.php -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Estadísticas - Sistema de Detección de CO</title>
+    <title><?= esc($title) ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Chart.js -->
@@ -113,7 +114,6 @@
             max-width: 600px;
             margin: auto;
         }
-
     </style>
 </head>
 <body>
@@ -126,62 +126,85 @@
     </div>
 
     <?php
-        // Valores simulados
-        $sensor1 = 35;
-        $sensor2 = 78;
-        $sensor3 = 120;
-        $total = $sensor1 + $sensor2 + $sensor3;
+    $total = 0;
+    foreach ($sensores as $s) {
+        $total += $s['valor_ppm'];
+    }
     ?>
 
     <div class="cards">
+        <?php foreach ($sensores as $sensor): ?>
 
-        <div class="card">
-            <h2>Sensor Cocina</h2>
-            <div class="value normal"><?= $sensor1 ?> ppm</div>
-            <div class="info">Nivel actual de CO</div>
-        </div>
+            <?php
+                $valor = $sensor['valor_ppm'];
 
-        <div class="card">
-            <h2>Sensor Garaje</h2>
-            <div class="value warning"><?= $sensor2 ?> ppm</div>
-            <div class="info">Nivel moderado</div>
-        </div>
+                if ($sensor['funcionamiento'] === 'apagado') {
+                    $estado = 'warning';
+                    $texto = 'Sensor apagado';
+                } elseif ($valor < 50) {
+                    $estado = 'normal';
+                    $texto = 'Nivel normal';
+                } elseif ($valor < 100) {
+                    $estado = 'warning';
+                    $texto = 'Nivel moderado';
+                } else {
+                    $estado = 'danger';
+                    $texto = 'Nivel crítico';
+                }
+            ?>
 
-        <div class="card">
-            <h2>Sensor Dormitorio</h2>
-            <div class="value danger"><?= $sensor3 ?> ppm</div>
-            <div class="info">Nivel crítico</div>
-        </div>
+            <div class="card">
+                <h2><?= esc($sensor['sector']) ?></h2>
+                <div class="value <?= $estado ?>"><?= esc($valor) ?> ppm</div>
+                <div class="info"><?= $texto ?></div>
+            </div>
 
+        <?php endforeach; ?>
     </div>
 
-    <!-- GRÁFICO GRANDE -->
+    <!-- GRÁFICO -->
     <div class="chart-container">
-        <h2 style="margin-bottom:30px; color:#94a3b8;">Distribución Porcentual de CO</h2>
+        <h2 style="margin-bottom:30px; color:#94a3b8;">
+            Distribución Porcentual de CO
+        </h2>
         <canvas id="graficoSensores"></canvas>
     </div>
 
 </div>
 
 <script>
-    const ctx = document.getElementById('graficoSensores');
+document.addEventListener("DOMContentLoaded", function () {
+
+    const canvas = document.getElementById('graficoSensores');
+
+    if (!canvas) {
+        console.error("No se encontró el canvas");
+        return;
+    }
+
+    const ctx = canvas.getContext('2d');
 
     new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: ['Cocina', 'Garaje', 'Dormitorio'],
+            labels: [
+                <?php foreach ($sensores as $s): ?>
+                    "<?= esc($s['sector']) ?>",
+                <?php endforeach; ?>
+            ],
             datasets: [{
                 data: [
-                    <?= ($sensor1/$total)*100 ?>,
-                    <?= ($sensor2/$total)*100 ?>,
-                    <?= ($sensor3/$total)*100 ?>
+                    <?php foreach ($sensores as $s): ?>
+                        <?= $total > 0 ? ($s['valor_ppm'] / $total) * 100 : 0 ?>,
+                    <?php endforeach; ?>
                 ],
                 backgroundColor: [
                     '#22c55e',
                     '#facc15',
-                    '#ef4444'
-                ],
-                borderWidth: 0
+                    '#ef4444',
+                    '#38bdf8',
+                    '#a78bfa'
+                ]
             }]
         },
         options: {
@@ -189,16 +212,16 @@
             plugins: {
                 legend: {
                     labels: {
-                        color: 'white',
-                        font: {
-                            size: 14
-                        }
+                        color: 'white'
                     }
                 }
             }
         }
     });
+
+});
 </script>
 
 </body>
 </html>
+

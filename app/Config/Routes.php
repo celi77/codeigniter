@@ -88,3 +88,8 @@ $routes->get('sp/rechazar/(:num)', 'SolPass::rechazar/$1');
 $routes->get('reset/(:any)', 'SolPass::reset/$1');
 
 $routes->post('solpass/updatePassword', 'SolPass::updatePassword');
+
+$routes->get('plano', 'Plano::index');
+$routes->get('sensor/(:num)', 'Plano::detalle/$1');
+
+$routes->get('logout', 'VistaPrincipal::logout');

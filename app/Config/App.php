@@ -71,4 +71,7 @@ class App extends BaseConfig
      * CSP
      */
     public bool $CSPEnabled = false;
+
+    public string $sessionDriver = 'CodeIgniter\Session\Handlers\FileHandler';
+public string $sessionSavePath = WRITEPATH . 'session';
 }

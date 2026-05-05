@@ -9,8 +9,10 @@ class SensorModel extends Model
     protected $table = 'sensores';
     protected $primaryKey = 'id';
 
-    protected $allowedFields = [
-        'sector',
-        'funcionamiento'
-    ];
+   protected $allowedFields = [
+    'sector',
+    'funcionamiento',
+    'valor_ppm'
+];
+    protected $returnType = 'array';
 }

@@ -9,20 +9,19 @@ class MiPerfil extends Controller
 {
     public function miperfil()
     {
-        // 🔒 Proteger acceso
-        if (!session()->get('logueado')) {
+        // 🔒 PROTECCIÓN CORRECTA
+        if (!session()->get('logged_in')) {
             return redirect()->to(base_url('login'));
         }
 
         $model = new UsuarioModel();
 
-        // Buscar usuario actual por ID guardado en sesión
         $usuario = $model->find(session()->get('id_usuario'));
 
         $data = [
             'titulo'    => 'Mi Perfil - Monitoreo Inteligente de CO',
             'nombre'    => $usuario['nombre'],
-            'usuario'   => $usuario['nombre'], 
+            'usuario'   => $usuario['nombre'],
             'email'     => $usuario['email'],
             'telefono'  => $usuario['telefono'] ?? '',
             'ubicacion' => $usuario['ubicacion'] ?? '',
@@ -34,7 +33,7 @@ class MiPerfil extends Controller
 
     public function guardar()
     {
-        if (!session()->get('logueado')) {
+        if (!session()->get('logged_in')) {
             return redirect()->to(base_url('login'));
         }
 
@@ -44,13 +43,11 @@ class MiPerfil extends Controller
         $file = $this->request->getFile('foto');
         $fotoNombre = null;
 
-        // 📸 Subida de imagen
         if ($file && $file->isValid() && !$file->hasMoved()) {
             $fotoNombre = $file->getRandomName();
             $file->move('uploads/perfil', $fotoNombre);
         }
 
-        // 📌 Datos a actualizar
         $data = [
             'nombre'    => $this->request->getPost('nombre'),
             'usuario'   => $this->request->getPost('usuario'),
@@ -59,15 +56,12 @@ class MiPerfil extends Controller
             'ubicacion' => $this->request->getPost('ubicacion') ?? null,
         ];
 
-        // si subió foto
         if ($fotoNombre) {
             $data['foto'] = $fotoNombre;
         }
 
-        // 💾 actualizar usuario
         $model->update($idUsuario, $data);
 
-        // 🔁 actualizar sesión (opcional pero recomendado)
         session()->set([
             'nombre' => $data['nombre'],
             'email'  => $data['email']

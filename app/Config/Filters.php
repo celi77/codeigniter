@@ -26,7 +26,7 @@ class Filters extends BaseFilters
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
 
-        // 👇 TU FILTRO DE AUTENTICACIÓN
+        // ✅ FILTRO DE AUTENTICACIÓN
         'auth' => \App\Filters\AuthFilter::class,
     ];
 
@@ -44,17 +44,14 @@ class Filters extends BaseFilters
 
     public array $globals = [
         'before' => [
-            // 'honeypot',
-            // 'csrf',
-            // 'invalidchars',
+            // ⚠️ NO pongas 'auth' acá si tenés login público
+            // 'auth',
         ],
         'after' => [
-            // 'honeypot',
             // 'secureheaders',
         ],
     ];
 
     public array $methods = [];
 
-    public array $filters = [];
 }

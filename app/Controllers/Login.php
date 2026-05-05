@@ -14,10 +14,11 @@ class Login extends Controller
 
     public function checkLogin()
     {
+      
         $session = session();
         $model = new UsuarioModel();
 
-        $email = $this->request->getPost('username');
+        $email = $this->request->getPost('email');
         $password = $this->request->getPost('password');
 
         // Buscar usuario
@@ -30,17 +31,22 @@ class Login extends Controller
         if (!password_verify($password, $usuario['password'])) {
             return redirect()->back()->with('error', 'Contraseña incorrecta');
         }
+        
+        if ($usuario) {
 
-        // 🔥 ACÁ ESTABA EL ERROR: faltaba rol
         $session->set([
-            'id_usuario' => $usuario['id'],
-            'nombre' => $usuario['nombre'],
-            'email' => $usuario['email'],
-            'rol' => $usuario['rol'], // ✔️ ESTO ES CLAVE
-            'logueado' => true
-        ]);
+        'id_usuario' => $usuario['id'],
+        'nombre' => $usuario['nombre'],
+        'email' => $usuario['email'],
+        'rol' => $usuario['rol'],
+        'logged_in' => true,
+    ]);
 
-        return redirect()->to(base_url('vistaprincipal'));
+    return redirect()->to(base_url('vistaprincipal'));
+}
+
+return redirect()->to(base_url('login'))->with('error', 'Datos incorrectos');
+        
     }
 
     public function logout()
