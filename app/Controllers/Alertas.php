@@ -2,18 +2,19 @@
 
 namespace App\Controllers;
 
+use App\Models\SensorModel;
 use CodeIgniter\Controller;
 
 class Alertas extends Controller
 {
     public function index()
     {
-        $data = [
-            'cocina' => 35,
-            'garaje' => 78,
-            'dormitorio' => 120
-        ];
+        $sensorModel = new SensorModel();
 
-        return view('alertas', $data);
+        $sensores = $sensorModel->findAll();
+
+        return view('alertas', [
+            'sensores' => $sensores
+        ]);
     }
 }

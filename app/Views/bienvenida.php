@@ -612,15 +612,13 @@
         </div>
 
         <h1 class="hero-title">
-            <span class="line-muted">Detección</span>
-            <span class="line-accent">inteligente</span>
-            <span class="line-muted">de CO</span>
+
+            <span class="line-accent">ALERTA</span>
+            <span class="line-muted">CO</span>
         </h1>
 
         <p class="hero-desc">
-            Plataforma de monitoreo en tiempo real con alertas automáticas, 
-            visualización avanzada de datos y análisis predictivo para 
-            entornos industriales y residenciales.
+           Detección inteligente de CO. Monitoreo en tiempo real, alertas automáticas y análisis avanzado para proteger tu entorno.
         </p>
 
         <div class="btn-row">

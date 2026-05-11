@@ -1,125 +1,89 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Nueva contraseña</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Cambiar contraseña</title>
 
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+<style>
+body{
+    font-family: Arial;
+    background:#0f172a;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+.card{
+    background:#111827;
+    padding:40px;
+    width:350px;
+    border-radius:12px;
+}
 
-        body {
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, #0f172a 0%, #1e2937 100%);
-            font-family: 'Inter', sans-serif;
-            color: white;
-        }
+input{
+    width:100%;
+    padding:10px;
+    margin:10px 0;
+}
 
-        .card {
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(24px);
-            padding: 55px 50px;
-            border-radius: 28px;
-            width: 420px;
-            text-align: center;
-            box-shadow: 0 30px 70px -15px rgba(0,0,0,0.6);
-            border: 1px solid rgba(56,189,248,0.2);
-            position: relative;
-        }
+button{
+    width:100%;
+    padding:10px;
+    background:#38bdf8;
+    border:none;
+    cursor:pointer;
+}
 
-        h2 {
-            font-size: 26px;
-            margin-bottom: 25px;
-            color: #38bdf8;
-        }
-
-        label {
-            display: block;
-            text-align: left;
-            margin-bottom: 8px;
-            font-size: 14px;
-            color: #cbd5e1;
-        }
-
-        input {
-            width: 100%;
-            padding: 15px;
-            border-radius: 12px;
-            border: 1px solid rgba(148,163,184,0.3);
-            background: rgba(255,255,255,0.08);
-            color: white;
-            font-size: 15px;
-            margin-bottom: 20px;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #38bdf8;
-            box-shadow: 0 0 0 4px rgba(56,189,248,0.15);
-        }
-
-        button {
-            width: 100%;
-            padding: 15px;
-            border: none;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #38bdf8, #0ea5e9);
-            color: #0f172a;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(14,165,233,0.4);
-        }
-
-        .back {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            color: #94a3b8;
-            text-decoration: none;
-            font-size: 13px;
-        }
-
-        .back:hover {
-            color: white;
-        }
-
-    </style>
+small{
+    cursor:pointer;
+    color:#38bdf8;
+}
+</style>
 </head>
 
 <body>
 
 <div class="card">
 
-    <a class="back" href="<?= base_url('login') ?>">← Volver</a>
+<h2>Cambiar contraseña</h2>
 
-    <h2>Crear nueva contraseña</h2>
+<?php if(session()->getFlashdata('error')): ?>
+<p style="color:red"><?= session()->getFlashdata('error') ?></p>
+<?php endif; ?>
 
-   <form method="post" action="<?= base_url('solpass/updatePassword') ?>">
-        <?= csrf_field() ?>
+<form method="post" action="<?= base_url('cambiar-password/actualizar') ?>">
+<?= csrf_field() ?>
 
-        <input type="hidden" name="token" value="<?= $token ?>">
+<label>Email</label>
+<input type="email" name="email" required>
 
-        <label>Nueva contraseña</label>
-        <input type="password" name="password" placeholder="Ingresá tu nueva contraseña" required>
+<label>Nueva contraseña</label>
+<input type="password" name="password" id="p1" required>
 
-        <button type="submit">Guardar contraseña</button>
-    </form>
+<label>Repetir contraseña</label>
+<input type="password" name="password2" id="p2" required>
+
+<small onclick="toggle()">ver contraseña 👁️</small>
+
+<br><br>
+
+<button type="submit">Guardar</button>
+
+</form>
 
 </div>
+
+<script>
+function toggle(){
+    let a=document.getElementById('p1');
+    let b=document.getElementById('p2');
+
+    a.type = a.type==="password"?"text":"password";
+    b.type = b.type==="password"?"text":"password";
+}
+</script>
 
 </body>
 </html>

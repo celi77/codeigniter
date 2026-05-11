@@ -187,7 +187,7 @@
         <input type="password" name="password" placeholder="Contraseña" required minlength="8">
 
         <!-- OLVIDASTE CONTRASEÑA (ARREGLADO) -->
-              <a href="<?= base_url('recuperar-password') ?>" class="btn-back">
+              <a href="<?= base_url('cambiar-password') ?>" class="btn-back">
         ¿Olvidaste tu contraseña? 
     </a>
 

@@ -16,4 +16,8 @@ class UsuarioModel extends Model
         'rol',
         'creado_en'
     ];
+
+    // 🔥 IMPORTANTE: asegura conexión y evita errores silenciosos
+    protected $useTimestamps = false;
+    protected $returnType = 'array';
 }

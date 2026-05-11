@@ -7,12 +7,14 @@ use CodeIgniter\Model;
 class SensorModel extends Model
 {
     protected $table = 'sensores';
+
     protected $primaryKey = 'id';
 
-   protected $allowedFields = [
-    'sector',
-    'funcionamiento',
-    'valor_ppm'
-];
-    protected $returnType = 'array';
+    protected $allowedFields = [
+        'sector',
+        'funcionamiento',
+        'valor_ppm',
+        'offset_ppm',
+        'notas_calibracion'
+    ];
 }

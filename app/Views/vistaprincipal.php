@@ -560,7 +560,7 @@
 <div class="grid-overlay"></div>
 <div class="noise"></div>
  
-<!-- ══════════ SIDEBAR ══════════ -->
+<<!-- ══════════ SIDEBAR ══════════ -->
 <aside class="sidebar">
  
   <div class="sidebar-brand">
@@ -591,9 +591,7 @@
  
     <?php if(session()->get('rol') === 'admin'): ?>
       <span class="nav-section-label">Administración</span>
-      <a href="<?= base_url('sp') ?>">
-        <i class="fas fa-key"></i> Solicitud de Contraseña
-      </a>
+      
       <a href="<?= base_url('configuracion') ?>">
         <i class="fas fa-cog"></i> Configuración
       </a>
@@ -601,12 +599,33 @@
   </nav>
  
   <div class="sidebar-footer">
+
+    <!-- 🔽 BOTÓN NUEVO AGREGADO ACÁ -->
+    <?php if(session()->get('rol') !== 'admin'): ?>
+    <a href="<?= base_url('sp/solicitar') ?>" 
+       style="display:flex;align-items:center;gap:11px;
+              padding:11px 14px;border-radius:12px;
+              color:#38bdf8;text-decoration:none;
+              font-size:14px;transition:all .18s ease;
+              margin-bottom:6px;
+              background:rgba(56,189,248,0.06);
+              border:1px solid rgba(56,189,248,0.15);"
+       onmouseover="this.style.background='rgba(56,189,248,0.12)'"
+       onmouseout="this.style.background='rgba(56,189,248,0.06)'">
+
+      <i class="fas fa-user-shield" style="width:16px;text-align:center;font-size:13px;"></i>
+      Solicitar ser admin
+    </a>
+    <?php endif; ?>
+
     <a href="<?= base_url('miperfil') ?>" style="display:flex;align-items:center;gap:11px;padding:11px 14px;border-radius:12px;color:#94a3b8;text-decoration:none;font-size:14px;transition:all .18s ease;margin-bottom:2px;" onmouseover="this.style.background='rgba(56,189,248,0.07)';this.style.color='#38bdf8'" onmouseout="this.style.background='';this.style.color='#94a3b8'">
       <i class="fas fa-user" style="width:16px;text-align:center;font-size:13px;"></i> Mi Perfil
     </a>
+
     <a href="<?= base_url('/logout') ?>" class="text-danger" style="display:flex;align-items:center;gap:11px;padding:11px 14px;border-radius:12px;color:#f87171;text-decoration:none;font-size:14px;transition:all .18s ease;" onmouseover="this.style.background='rgba(239,68,68,0.08)'" onmouseout="this.style.background=''">
       <i class="fas fa-sign-out-alt" style="width:16px;text-align:center;font-size:13px;"></i> Salir
     </a>
+
   </div>
  
 </aside>
@@ -674,71 +693,139 @@
   </div>
  
   <!-- ADMIN: SOLICITUDES -->
-  <?php if(session()->get('rol') === 'admin' && isset($solicitudes)): ?>
- 
-    <div class="section-divider">
-      <h4><i class="fas fa-inbox me-2" style="color:var(--blue);font-size:14px;"></i>Solicitudes</h4>
-    </div>
- 
-    <div class="glass-table-wrap">
-      <table class="glass-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Email</th>
-            <th>Estado</th>
-            <th>Acción</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php foreach($solicitudes as $s): ?>
-          <tr>
-            <td style="color:var(--muted);font-family:'Syne',sans-serif;font-size:12px;">#<?= $s['id'] ?></td>
-            <td><?= $s['email'] ?></td>
-            <td>
-              <span class="badge-soft <?= $s['estado'] == 'pendiente' ? 'warn' : 'ok' ?>">
-                <?= $s['estado'] ?>
-              </span>
-            </td>
-            <td>
-              <?php if($s['estado'] == 'pendiente'): ?>
-                <a href="<?= base_url('sp/aprobar/'.$s['id']) ?>" class="btn btn-success btn-sm me-1">✔</a>
-                <a href="<?= base_url('sp/rechazar/'.$s['id']) ?>" class="btn btn-danger btn-sm">✖</a>
-              <?php else: ?>
-                <span style="color:var(--muted);font-size:12px;">—</span>
-              <?php endif; ?>
-            </td>
-          </tr>
-          <?php endforeach; ?>
-        </tbody>
-      </table>
-    </div>
- 
-  <?php endif; ?>
+<?php if(session()->get('rol') !== 'admin'): ?>
+  <a href="<?= base_url('sp/solicitar') ?>" 
+     style="display:flex;align-items:center;gap:11px;
+            padding:11px 14px;border-radius:12px;
+            color:#38bdf8;text-decoration:none;
+            font-size:14px;transition:all .18s ease;"
+     onmouseover="this.style.background='rgba(56,189,248,0.07)'"
+     onmouseout="this.style.background=''">
+
+    <i class="fas fa-user-shield" style="width:16px;text-align:center;font-size:13px;"></i>
+    Solicitar ser admin
+  </a>
+<?php endif; ?>
  
   <!-- ACTIVIDAD DE SENSORES -->
-  <div class="sensors-card">
-    <div class="sensors-card-header">
-      <h5><i class="fas fa-microchip"></i> Actividad de Sensores</h5>
-      <span class="sensors-count-badge"><?= count($sensores) ?> sensores</span>
-    </div>
- 
-    <?php foreach($sensores as $sensor): ?>
-      <div class="activity-item">
-        <div class="activity-left">
-          <div class="sensor-dot <?= $sensor['funcionamiento'] == 'activo' ? 'active' : 'inactive' ?>"></div>
-          <div>
-            <div class="sensor-name">Sensor <?= esc($sensor['sector']) ?></div>
-            <div class="sensor-meta">Zona de monitoreo</div>
+<div class="sensors-card">
+
+  <div class="sensors-card-header">
+    <h5>
+      <i class="fas fa-microchip"></i>
+      Actividad de Sensores
+    </h5>
+
+    <span class="sensors-count-badge">
+      <?= count($sensores) ?> sensores
+    </span>
+  </div>
+
+  
+  <?php foreach($sensores as $sensor): ?>
+
+    <div class="activity-item">
+
+      <div class="activity-left">
+
+        <div class="sensor-dot <?= $sensor['funcionamiento'] == 'activo' ? 'active' : 'inactive' ?>"></div>
+
+        <div>
+          <div class="sensor-name">
+            Sensor <?= esc($sensor['sector']) ?>
+          </div>
+
+          <div class="sensor-meta">
+            Zona de monitoreo
           </div>
         </div>
-        <span class="badge-soft <?= $sensor['funcionamiento'] == 'activo' ? 'ok' : 'bad' ?>">
-          <?= esc($sensor['funcionamiento']) ?>
-        </span>
+
       </div>
-    <?php endforeach; ?>
-  </div>
  
+      <div style="display:flex;align-items:center;gap:10px;">
+
+    <span class="badge-soft <?= $sensor['funcionamiento'] == 'activo' ? 'ok' : 'bad' ?>">
+        <?= esc($sensor['funcionamiento']) ?>
+    </span>
+   
+
+    <a href="<?= base_url('sensor/' . $sensor['id']) ?>" 
+       style="display:inline-flex;align-items:center;gap:6px;
+              padding:5px 12px;border-radius:100px;
+              font-size:11px;font-weight:500;text-decoration:none;
+              background:rgba(56,189,248,0.08);
+              border:1px solid rgba(56,189,248,0.2);
+              color:#38bdf8;
+              transition:all 0.18s ease;"
+       onmouseover="this.style.background='rgba(56,189,248,0.16)';this.style.borderColor='rgba(56,189,248,0.35)'"
+       onmouseout="this.style.background='rgba(56,189,248,0.08)';this.style.borderColor='rgba(56,189,248,0.2)'">
+        <i class="fas fa-arrow-right" style="font-size:9px;"></i>
+        Ver detalle
+    </a>
+
+</div>
+
+    </div>
+
+  <?php endforeach; ?>
+
+</div>
+<div class="sensors-card" style="margin-top:20px;">
+
+  <div class="sensors-card-header">
+    <h5>
+      <i class="fas fa-bell"></i>
+      Notificaciones
+    </h5>
+
+    <span class="sensors-count-badge">
+      <?= !empty($solicitudes) ? count($solicitudes) : 0 ?> pendientes
+    </span>
+  </div>
+
+  <?php if (!empty($solicitudes)): ?>
+
+    <?php foreach($solicitudes as $n): ?>
+
+      <div class="activity-item">
+
+        <div class="activity-left">
+
+          <div class="sensor-dot active"></div>
+
+          <div>
+            <div class="sensor-name">
+              Usuario #<?= $n['usuario_id'] ?> pidió ser admin
+            </div>
+
+            <div class="sensor-meta">
+              <?= $n['motivo'] ?>
+            </div>
+          </div>
+
+        </div>
+
+        <div>
+          <span class="badge-soft warn">
+            Pendiente
+          </span>
+        </div>
+
+      </div>
+
+    <?php endforeach; ?>
+
+  <?php else: ?>
+
+    <div class="activity-item">
+      <div class="sensor-name">
+        No hay notificaciones
+      </div>
+    </div>
+
+  <?php endif; ?>
+
+</div>
 </div><!-- /main-content -->
  
 <script>

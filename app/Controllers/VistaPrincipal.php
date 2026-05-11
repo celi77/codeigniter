@@ -8,12 +8,12 @@ use App\Models\SensorModel;
 class VistaPrincipal extends Controller
 {
     public function __construct()
-{
-    if (!session()->get('id_usuario')) {
-        header('Location: ' . base_url('login'));
-        exit;
+    {
+        if (!session()->get('id_usuario')) {
+            header('Location: ' . base_url('login'));
+            exit;
+        }
     }
-}
 
     public function index()
     {
@@ -38,13 +38,28 @@ class VistaPrincipal extends Controller
         $temperatura = $clima['main']['temp'] ?? 0;
         $descripcion = $clima['weather'][0]['description'] ?? '';
 
+        // ALERTAS Y ESTADO SEGÚN LOS PPM
+        $alertas = 0;
+        $estado = 'NORMAL';
+
+        foreach ($sensores as $sensor) {
+
+            if ($sensor['valor_ppm'] >= 10) {
+                $alertas++;
+            }
+
+            if ($sensor['valor_ppm'] >= 50) {
+                $estado = 'ALERTA';
+            }
+        }
+
         $data = [
             'sensores' => $sensores,
             'totalSensores' => count($sensores),
-            'alertas' => $sensorModel->where('funcionamiento', 'alerta')->countAllResults(),
+            'alertas' => $alertas,
             'temperatura' => $temperatura,
             'descripcion' => $descripcion,
-            'estado' => ($temperatura > 30) ? 'ALERTA' : 'NORMAL'
+            'estado' => $estado
         ];
 
         return view('vistaprincipal', $data);
@@ -57,4 +72,5 @@ class VistaPrincipal extends Controller
 
         return redirect()->to(base_url('login'));
     }
+ 
 }

@@ -7,74 +7,80 @@ use CodeIgniter\Router\RouteCollection;
  */
 
 // ================== INICIO Y AUTENTICACIÓN ==================
-$routes->get('/', 'Inicio::index'); 
+$routes->get('/', 'Inicio::index');
 
-$routes->get('registro', 'Inicio::registro'); 
-$routes->post('registro', 'Inicio::guardar'); 
+$routes->get('registro', 'Inicio::registro');
+$routes->post('registro', 'Inicio::guardar');
 
-$routes->get('registro', 'Registro::index'); 
+$routes->get('registro', 'Registro::index');
 
-$routes->get('login', 'Login::index');          
-$routes->post('login/validate', 'Login::validate'); 
-$routes->get('login/logout', 'Login::logout'); 
+$routes->get('login', 'Login::index');
+$routes->post('login/validate', 'Login::validate');
+$routes->get('login/logout', 'Login::logout');
 
 $routes->post('login/checkLogin', 'Login::checkLogin');
 
+
 // ================== PANEL Y VISTAS PRINCIPALES ==================
-$routes->get('panelusuario', 'PanelUsuario::index'); 
-$routes->get('/home', 'Home::index'); 
+$routes->get('panelusuario', 'PanelUsuario::index');
+$routes->get('home', 'Home::index');
 $routes->get('vistaprincipal', 'VistaPrincipal::index');
 
+
 // ================== REGISTRO STORE ==================
-$routes->post('registro/store', 'Registro::store'); 
+$routes->post('registro/store', 'Registro::store');
 
-// ================== NUEVAS RUTAS - ESTADÍSTICAS (AGREGADAS AL FINAL) ==================
 
-// Vista principal de Estadísticas
+// ================== ESTADÍSTICAS ==================
 $routes->get('estadisticas', 'Estadisticas::index', ['as' => 'estadisticas']);
-
-// (Opcional) Para filtrar en el futuro
 $routes->get('estadisticas/filtrar', 'Estadisticas::filtrar', ['as' => 'estadisticas.filtrar']);
 
 
-// ================== RUTA - ALERTAS ==================
+// ================== ALERTAS ==================
 $routes->get('alertas', 'Alertas::index');
 
-// ================== RUTAS - MI PERFIL ==================
-$routes->get('/miperfil', 'MiPerfil::miperfil');
-$routes->post('/miperfil/guardar', 'MiPerfil::guardar');
+
+// ================== PERFIL ==================
+$routes->get('miperfil', 'MiPerfil::miperfil');
+$routes->post('miperfil/guardar', 'MiPerfil::guardar');
 
 
-// ================== RUTA - CONFIGURACIÓN ==================
+// ================== CONFIGURACIÓN ==================
 $routes->get('configuracion', 'Configuracion::index');
-// ================== RUTA - SENSORES (AGREGADA AL FINAL) ==================
-$routes->get('sensores', 'Sensores::index');
-// ================== RUTA - PLANO (AGREGADA AL FINAL) ==================
+$routes->post('configuracion/actualizarRol', 'Configuracion::actualizarRol');
+$routes->post('configuracion/guardarSensor', 'Configuracion::guardarSensor');
+$routes->post('configuracion/crearUsuario', 'Configuracion::crearUsuario');
 
+
+// ================== SENSORES ==================
+$routes->get('sensores', 'Sensores::index');
+
+$routes->get('sensor/(:num)', 'SensorController::ver/$1');
+$routes->post('sensor/editar/(:num)', 'SensorController::editar/$1');
+$routes->get('sensor/apagar/(:num)', 'SensorController::apagar/$1');
+$routes->get('sensor/activar/(:num)', 'SensorController::activar/$1');
+$routes->post('sensor/calibrar/(:num)', 'SensorController::calibrar/$1');
+$routes->get('sensor/eliminar/(:num)', 'SensorController::eliminar/$1');
+
+
+// ================== PLANO ==================
 $routes->get('plano', function () {
     return view('plano');
 });
-$routes->get('/recuperar-password', 'RecuperarPassword::index');
-$routes->post('/recuperar-password/enviar', 'RecuperarPassword::enviar');
-
-$routes->get('recuperarpassword', 'RecuperarPassword::index');
-$routes->post('recuperarpassword/enviar', 'RecuperarPassword::enviar');
-$routes->get('recuperarpassword/cambiar/(:segment)', 'RecuperarPassword::cambiar/$1');
-$routes->post('recuperarpassword/actualizar', 'RecuperarPassword::actualizar');
-
-$routes->get('/admin/solicitudes', 'AdminRecuperacion::index');
-$routes->get('/admin/aprobar/(:num)', 'AdminRecuperacion::aprobar/$1');
-$routes->get('/admin/rechazar/(:num)', 'AdminRecuperacion::rechazar/$1');
-
-//configuracion de roles admin
-$routes->get('/configuracion', 'Configuracion::index');
-$routes->post('/configuracion/actualizarRol', 'Configuracion::actualizarRol');
-
-//nuevos sensores 
-$routes->post('configuracion/guardarSensor', 'Configuracion::guardarSensor');
+$routes->get('plano', 'Plano::index');
 
 
-// ================== RUTA - SOLICITUD DE CONTRASEÑA (AGREGADA AL FINAL) ==================
+// ================== LOGIN / CAMBIO DE CONTRASEÑA (ARREGLADO) ==================
+$routes->get('cambiar-password', 'Login::cambiarPassword');
+$routes->post('cambiar-password/actualizar', 'Login::actualizarPassword');
+
+// ================== ADMIN RECUPERACIÓN ==================
+$routes->get('admin/solicitudes', 'AdminRecuperacion::index');
+$routes->get('admin/aprobar/(:num)', 'AdminRecuperacion::aprobar/$1');
+$routes->get('admin/rechazar/(:num)', 'AdminRecuperacion::rechazar/$1');
+
+
+// ================== SOLPASS ==================
 $routes->get('sp', 'SolPass::index');
 $routes->post('sp/send', 'SolPass::send');
 
@@ -82,14 +88,13 @@ $routes->get('sp/admin', 'SolPass::admin');
 $routes->get('sp/aprobar/(:num)', 'SolPass::aprobar/$1');
 $routes->get('sp/rechazar/(:num)', 'SolPass::rechazar/$1');
 
-
-
-
 $routes->get('reset/(:any)', 'SolPass::reset/$1');
-
 $routes->post('solpass/updatePassword', 'SolPass::updatePassword');
 
-$routes->get('plano', 'Plano::index');
-$routes->get('sensor/(:num)', 'Plano::detalle/$1');
 
+// ================== LOGOUT GENERAL ==================
 $routes->get('logout', 'VistaPrincipal::logout');
+
+// ================== SOLICITUD ADMIN ==================
+$routes->get('sp/solicitar', 'SolicitudAdmin::index');
+$routes->post('sp/enviar', 'SolicitudAdmin::enviar');

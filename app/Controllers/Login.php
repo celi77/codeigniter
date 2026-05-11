@@ -14,44 +14,59 @@ class Login extends Controller
 
     public function checkLogin()
     {
-      
-        $session = session();
         $model = new UsuarioModel();
 
         $email = $this->request->getPost('email');
         $password = $this->request->getPost('password');
 
-        // Buscar usuario
+        $usuario = $model->where('email', $email)->first();
+
+        if (!$usuario || !password_verify($password, $usuario['password'])) {
+            return redirect()->back()->with('error', 'Datos incorrectos');
+        }
+
+        session()->set([
+            'id_usuario' => $usuario['id'],
+            'nombre' => $usuario['nombre'],
+            'email' => $usuario['email'],
+            'rol' => $usuario['rol'],
+            'logged_in' => true,
+        ]);
+
+        return redirect()->to(base_url('vistaprincipal'));
+    }
+
+    public function cambiarPassword()
+    {
+        return view('cambiar-password');
+    }
+
+    public function actualizarPassword()
+    {
+        $model = new UsuarioModel();
+
+        $email = $this->request->getPost('email');
+        $pass1 = $this->request->getPost('password');
+        $pass2 = $this->request->getPost('password2');
+
+        if (!$email || !$pass1 || !$pass2) {
+            return redirect()->back()->with('error', 'Completa todos los campos');
+        }
+
+        if ($pass1 !== $pass2) {
+            return redirect()->back()->with('error', 'Las contraseñas no coinciden');
+        }
+
         $usuario = $model->where('email', $email)->first();
 
         if (!$usuario) {
-            return redirect()->back()->with('error', 'Usuario no encontrado');
+            return redirect()->back()->with('error', 'Email no registrado');
         }
 
-        if (!password_verify($password, $usuario['password'])) {
-            return redirect()->back()->with('error', 'Contraseña incorrecta');
-        }
-        
-        if ($usuario) {
+        $model->update($usuario['id'], [
+            'password' => password_hash($pass1, PASSWORD_DEFAULT)
+        ]);
 
-        $session->set([
-        'id_usuario' => $usuario['id'],
-        'nombre' => $usuario['nombre'],
-        'email' => $usuario['email'],
-        'rol' => $usuario['rol'],
-        'logged_in' => true,
-    ]);
-
-    return redirect()->to(base_url('vistaprincipal'));
-}
-
-return redirect()->to(base_url('login'))->with('error', 'Datos incorrectos');
-        
-    }
-
-    public function logout()
-    {
-        session()->destroy();
-        return redirect()->to(base_url('login'));
+        return redirect()->to('/login')->with('ok', 'Contraseña actualizada');
     }
 }
